@@ -1,84 +1,43 @@
-# 🛡️ Risk Scanner
+# Risk Scanner
 
-A multi-chain token security scanner that checks EVM and Solana tokens for rug-pull indicators. Sends formatted reports to Discord via webhook.
+A lightweight, zero-dependency token security scanner for EVM and Solana chains. It runs as a Telegram bot, allowing users to instantly check for honeypots, malicious taxes, unverified code, and dangerous mint authorities.
 
-## What It Detects
+## Features
 
-- 🚨 Honeypots (can't sell after buying)
-- 🚨 Mintable tokens (dev can print infinite supply)
-- 🚨 Proxy contracts (logic can change after launch)
-- 🚨 Balance modification (dev can alter wallet balances)
-- 🏦 Holder concentration (top 10 wallets % of supply)
-- 📜 Open source status
-- 📊 Total holder count
+- **Multi-Chain Support:** Automatically detects and scans EVM chains (Ethereum, BSC, Base, Arbitrum, Polygon, Optimism, Robinhood Chain) and Solana.
+- **Categorical Risk Scoring:** Assigns a clear verdict (LOW, MEDIUM, HIGH, CRITICAL) based on weighted red flags.
+- **Deep Analytics:** Integrates with Dexscreener to provide direct links to charts and socials, along with 24h trading volume and buy/sell activity.
+- **EVM Checks:** Honeypots, buy/sell tax, source code verification, mintable supply, transfer pausability, and liquidity lock status.
+- **Solana Checks:** Mint authority, freeze authority, balance mutability, and transfer fees.
+- **Smart Caching:** Caches results for 5 minutes and limits each user to one scan every 4 seconds to protect free API tiers.
 
-## Supported Chains
+## Setup
 
-| Chain | Chain ID |
-|:---|:---|
-| Ethereum | 1 |
-| BSC | 56 |
-| Polygon | 137 |
-| Arbitrum | 42161 |
-| Optimism | 10 |
-| Base | 8453 |
-| Solana | 501 |
+1. **Install Node.js:** Requires Node 18+ (for native fetch support).
+2. **Clone the repo:**
+    git clone https://github.com/superwavvy/risk-scanner.git
+    cd risk-scanner
+3. **Create a Telegram Bot:**
+    - Message @BotFather on Telegram.
+    - Send `/newbot` and follow the prompts.
+    - Copy the HTTP API Token.
+4. **Environment Variables:**
+    Create a `.env` file in the root directory:
+    TELEGRAM_BOT_TOKEN=your_bot_token_here
+    BRAND_NAME=Risk Scanner
+5. **Run the Bot:**
+    node telegram-bot.js
 
-## Usage
+## Commands
 
-```bash
-node risk-scanner.js
-```
+- `/scan <address>` - Scan an EVM or Solana token.
+- `/start` or `/help` - Show usage instructions.
 
-The bot prompts you to paste a contract address. It auto-detects Solana vs. EVM, fetches risk data from the GoPlus API, and sends a Discord embed with the findings.
+*(In private chat, you can just paste a contract address directly without the `/scan` command).*
 
-Example output:
+## Disclaimer
 
-```
-🛡️ Risk Report: Bonk (Bonk)
-Concentration Note: Healthy holder distribution
+This is an automated scan, not a manual audit or financial advice. A clean result does not guarantee safety. Always do your own research (DYOR).
 
-📊 Holders: 1,022,688
-📜 Open Source: ✅ YES
-🏦 Top 10 Wallets: Highly Distributed (🟢 LOW)
-
-🚨 Honeypot: ✅ NO
-🚨 Mintable: ✅ NO
-🚨 Proxy Contract: ✅ NO
-🚨 Modify Balances: ✅ NO
-```
-
-Tech Stack
-
-· Runtime: Node.js
-· Data Source: GoPlus Security API (free tier)
-· Alerts: Discord webhooks
-· Chains: EVM (Ethereum, Arbitrum, Base, etc.) + Solana
-
-Setup
-
-1. Clone the repo
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Create a .env file:
-   ```env
-   DISCORD_WEBHOOK_URL=your_discord_webhook_url
-   ```
-4. Run:
-   ```bash
-   node risk-scanner.js
-   ```
-
-Skills Demonstrated
-
-· Multi-chain API integration (EVM + Solana)
-· Base58 vs. checksummed address handling
-· Discord webhook formatting (embeds)
-· Interactive CLI (readline)
-· Risk scoring / severity classification
-
-License
-
-MIT
+---
+*Built by [Superwavvy](https://github.com/superwavvy)*
